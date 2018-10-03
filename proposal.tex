@@ -2,6 +2,10 @@
 
 \usepackage{minted}
 \usepackage{hyperref}
+\usepackage{datetime}
+\usepackage{datenumber}
+\usepackage{advdate}
+\usepackage[super]{nth}
 \usepackage[margin=0.75in]{geometry}
 
 \parindent 0pt \parskip 6pt
@@ -195,6 +199,14 @@ There are plenty of interesting extensions to the proposed work:
 \item
 {
 
+    A very cool demonstration for the project would be to compile the project using the compiler developed during the
+    project (bootstrap). This would require extensive language support though (at the very least, support for monads),
+    which is likely infeasible to reach.
+
+}
+\item
+{
+
     One potential advantage of using the JVM as a target is that it may be possible to provide an interface between Java
     code and Haskell code.
 
@@ -206,17 +218,69 @@ There are plenty of interesting extensions to the proposed work:
 I intend to treat tests as part of a feature: when the schedule lists a certain feature as being deliverable in a slot,
 that implicitly includes suitable tests for it.
 
+% Set start date to 15th October 2018
+\ThisYear{2018}\ThisMonth{10}\ThisDay{15}
+% Specify date format like "15th Oct"
+\newdateformat{datefmt}{\nth{\THEDAY} \shortmonthname[\THEMONTH]}
+
+% Force advdate commands to change the global "today" instance, not the local one
+\makeatletter
+\renewcommand\AdvanceDate[1][\@ne]{\global\advance\day#1 \FixDate}
+\renewcommand\FixDate{%
+  \FixMonth \is@LeapYear
+  \l@@p \global\ifnum\day<1 \Pr@vD@y \repeat
+  \l@@p \M@s\m@sic \global\ifnum\day>\M@s \N@xtD@y \repeat
+}
+\renewcommand\FixMonth{%
+  \L@@p \global\ifnum\month<1 \global\advance\year\m@ne \global\advance\month12 \is@LeapYear \repeat
+  \L@@p \global\ifnum\month>12 \global\advance\year\@ne \global\advance\month-12 \is@LeapYear \repeat}
+\def\Pr@vD@y{%
+  \global\ifnum\day<-366
+    \global\ifnum\month>2
+      \global\advance\day\r@k \global\advance\year\m@ne \is@LeapYear
+    \else
+      \global\advance\year\m@ne \is@LeapYear \advance\day\r@k
+    \fi
+  \else
+    \global\advance\month\m@ne \FixMonth
+    \global\advance\day\m@sic
+  \fi}
+\def\N@xtD@y{%
+  \global\ifnum\day>366
+    \global\ifnum\month>2
+      \global\advance\year\@ne \is@LeapYear \global\advance\day-\r@k
+    \else
+      \global\advance\day-\r@k \global\advance\year\@ne \is@LeapYear
+    \fi
+  \else
+    \global\advance\day-\M@s \global\advance\month\@ne \FixMonth
+  \fi}
+\makeatother
+
+% Output eg. boldface "15th Oct - 29th Oct" when called.
+\newcommand{\daterange}[1]{%
+    \textbf{\datefmt\today}
+    \textbf{--}
+    \AdvanceDate[#1]\relax
+    \textbf{\datefmt\today}
+    % Move one day past the end, intervals are exclusive
+    \AdvanceDate[1]\relax
+}
+
 \begin{itemize}
 \item
 {
-    \textbf{15th Oct - 28th Oct}
+    \daterange{7}
 
     General project setup: creating a version-controlled repository of code with continuous integration to run tests.
 
     Create a simple frontend for converting a given file into an AST using the \monospace{haskell-src} package. Focusing
     on single files for the moment, as without proper support for modules, multiple source files don't make sense.
 
-    The frontend should support various results from the backend: errors, warnings, and successful compilation.
+}
+\item
+{
+    \daterange{14}
 
     Implement a typechecking pass over the AST, \textit{including support for typeclasses}. This is one of the most
     uncertain duration parts of the project, because while the Hindley-Milner type system is well understood and
@@ -229,7 +293,7 @@ that implicitly includes suitable tests for it.
 }
 \item
 {
-    \textbf{29th Oct - 25th Nov}
+    \daterange{21}
 
     Create a simple (non-optimising) backend for experimenting with lazy evaluation. This should just perform a
     minimally-featured translation from the frontend's AST to executable bytecode (supporting eg. basic arithmetic and
@@ -250,7 +314,7 @@ that implicitly includes suitable tests for it.
 }
 \item
 {
-    \textbf{26th Nov - 2nd Dec}
+    \daterange{14}
 
     Implement user-defined functions, supporting currying, partial application, recursion, and laziness. Depending on
     how long this takes, this may be a convenient time to implement a number of smaller related features, such as:
@@ -284,7 +348,7 @@ that implicitly includes suitable tests for it.
 }
 \item
 {
-    \textbf{3rd Dec - 9th Dec}
+    \daterange{7}
 
     Introduce lists: these are one of the most frequently used data structures in Haskell, and form the basis for many
     algorithms. They also give many opportunities to demonstrate that the implementation of lazy evaluation works
@@ -294,7 +358,7 @@ that implicitly includes suitable tests for it.
 }
 \item
 {
-    \textbf{10th Dec - 16th Dec}
+    \daterange{7}
 
     At this point, a usable subset of Haskell should be complete and tested. The focus of the project now shifts to
     optimisations.
@@ -307,7 +371,7 @@ that implicitly includes suitable tests for it.
 }
 \item
 {
-    \textbf{17th Dec - 30th Dec}
+    \daterange{14}
 
     Implement an optimisation pass performing common subexpression elimination. In a lazy language, where we can expect
     to see significant buildup of unevaluated computations in memory, ensuring that we don't have two large blobs of
@@ -319,7 +383,7 @@ that implicitly includes suitable tests for it.
 }
 \item
 {
-    \textbf{31st Dec - 13th Jan}
+    \daterange{14}
 
     Implement strictness analysis, and accompanying optimisations. Strictness analysis is designed specifically for lazy
     languages, and this project is a prime opportunity to try it out: the optimisations opportunities revealed by
