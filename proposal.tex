@@ -122,15 +122,16 @@ implement this test suite.
 
 \section*{Success Criteria}
 
-The primary goal of the project is to produce a compiler that can translate source code written in a subset of Haskell
-into Java bytecode suitable for execution. This big-picture goal can be subdivided into distinct aspects:
+The primary goal of the project is to produce a compiler that can translate source code written in a small subset of
+Haskell into Java bytecode suitable for execution by the JVM. This big-picture goal can be subdivided into distinct
+aspects:
 
 \begin{itemize}
 \item
 {
     To succeed as a Haskell compiler, the result of this project should be able to reject ill-formed programs for
     syntactic or type errors (within the scope of the subset of Haskell implemented), and convert well-formed programs
-    into JVM Bytecode. The output programs should also perform computation non-strictly.
+    into Java bytecode. The output programs should perform computation non-strictly.
 }
 \item
 {
@@ -201,52 +202,8 @@ that implicitly includes suitable tests for it.
 
 % Set start date to 15th October 2018
 \ThisYear{2018}\ThisMonth{10}\ThisDay{15}
-% Specify date format like "15th Oct"
-\newdateformat{datefmt}{\nth{\THEDAY} \shortmonthname[\THEMONTH]}
 
-% Force advdate commands to change the global "today" instance, not the local one
-\makeatletter
-\renewcommand\AdvanceDate[1][\@ne]{\global\advance\day#1 \FixDate}
-\renewcommand\FixDate{%
-  \FixMonth \is@LeapYear
-  \l@@p \global\ifnum\day<1 \Pr@vD@y \repeat
-  \l@@p \M@s\m@sic \global\ifnum\day>\M@s \N@xtD@y \repeat
-}
-\renewcommand\FixMonth{%
-  \L@@p \global\ifnum\month<1 \global\advance\year\m@ne \global\advance\month12 \is@LeapYear \repeat
-  \L@@p \global\ifnum\month>12 \global\advance\year\@ne \global\advance\month-12 \is@LeapYear \repeat}
-\def\Pr@vD@y{%
-  \global\ifnum\day<-366
-    \global\ifnum\month>2
-      \global\advance\day\r@k \global\advance\year\m@ne \is@LeapYear
-    \else
-      \global\advance\year\m@ne \is@LeapYear \advance\day\r@k
-    \fi
-  \else
-    \global\advance\month\m@ne \FixMonth
-    \global\advance\day\m@sic
-  \fi}
-\def\N@xtD@y{%
-  \global\ifnum\day>366
-    \global\ifnum\month>2
-      \global\advance\year\@ne \is@LeapYear \global\advance\day-\r@k
-    \else
-      \global\advance\day-\r@k \global\advance\year\@ne \is@LeapYear
-    \fi
-  \else
-    \global\advance\day-\M@s \global\advance\month\@ne \FixMonth
-  \fi}
-\makeatother
-
-% Output eg. boldface "15th Oct - 29th Oct" when called.
-\newcommand{\daterange}[1]{%
-    \textbf{\datefmt\today}
-    \textbf{--}
-    \AdvanceDate[#1]\relax
-    \textbf{\datefmt\today}
-    % Move one day past the end, intervals are exclusive
-    \AdvanceDate[1]\relax
-}
+\input{daterange.tex}
 
 \begin{itemize}
 \item
