@@ -34,11 +34,11 @@
 {\bf Project Originator:} & Keith Collister & \\[3mm]
 {\bf Project Supervisor:} & Dr. Timothy Jones & {\bf Signature:} \\[3mm]
 {\bf Director of Studies:} & Prof. Alan Mycroft & {\bf Signature:} \\[3mm]
-{\bf Overseers:} & Foo & {\bf Signature:} \\[3mm]
-                 & Bar & {\bf Signature:} \\[3mm]
+{\bf Overseers:} & Andrew Rice & {\bf Signature:} \\[3mm]
+                 & Prof. Simone Teufel & {\bf Signature:} \\[3mm]
 \end{tabular}
 
-\todo{Fill out Foo/Bar}
+\todo{Andy Rice title - Dr/Prof/...?}
 
 \vspace{0.75in}
 
@@ -57,12 +57,12 @@ which makes it easier to avoid bugs.
 
 Java Bytecode was chosen as the target language as it is portable and mature. While not as performant as native machine
 code, bytecode output by the compiler built during this project can be interpreted on almost any platform, rather than
-being restricted to eg. only machines with an x86-64 processor.
+being restricted to e.g.\ only machines with an x86-64 processor.
 
 
 \section*{Starting Point}
 
-I intend to use Haskell to develop the compiler, and Python or Bash for quick utility scripts - I have experience with
+I intend to use Haskell to develop the compiler, and Python or Bash for quick utility scripts -- I have experience with
 all of these languages.
 
 I've preread the 2018 Optimising Compilers course\footnote{https://www.cl.cam.ac.uk/teaching/1718/OptComp/} as
@@ -73,7 +73,7 @@ preparation: my schedule involves writing optimisations before the module is lec
 
 I will use my personal laptop to develop this project: a ThinkPad 13 running NixOS. I will use Git for version control,
 host the code on a public repository on GitHub, and use TravisCI for automated tests. I also intend to keep a backup
-repository on an MCS machine - my personal DS-Filestore allowance should be sufficient.
+repository on an MCS machine -- my personal DS-Filestore allowance should be sufficient.
 
 Should my laptop break or otherwise become unusable to complete the project, I have an older laptop running Debian 9
 that I can use. It should only cost a few days to get it set up with a Haskell development environment.
@@ -85,31 +85,33 @@ licenses).
 
 \section*{Substance and Structure of the Project}
 
-The aim of the project is to develop an optimising compiler that can translate simple programs written in Haskell can be
-compiled into Java bytecode that can be interpreted on platforms supporting the Java Runtime Environment.
+The aim of the project is to develop an optimising compiler that can translate simple programs written in Haskell into
+Java bytecode that can be interpreted on platforms supporting the Java Runtime Environment.
 
 As the focus of the project is on the implementation of various language features and optimisations operating on them, I
-intend to use an existing library for lexing and parsing Haskell source code which can produce an AST from Haskell 98,
-\monospace{haskell-src}\footnote{https://hackage.haskell.org/package/haskell-src}. This will allow for more time to be
-devoted to those parts of the project which are more aligned with the aim.
+intend to use an existing library for lexing and parsing
+(\monospace{haskell-src}\footnote{https://hackage.haskell.org/package/haskell-src}) which can produce an AST from
+Haskell 98. This will allow for more time to be devoted to those parts of the project which are more aligned with the
+aim.
 
 Similarly, I intend to use the \monospace{hs-java} library\footnote{https://hackage.haskell.org/package/hs-java} to
 handle the conversion from the logical representation of bytecode to the actual instruction sequences (the ``assembly''
 part of the backend).
 
 As Haskell is a lazy language, one of the major challenges will be to design a way to represent and perform lazy
-computation. This might be achieved using "thunks", in-memory representations of pending computations. GHC uses a
+computation. This might be achieved using ``thunks'', in-memory representations of pending computations. GHC uses a
 directed graph to keep track of thunks.
 
 Haskell is a very feature-rich language, and those features are often highly dependent on each other: simple things
 often touch many aspects of the language (for example, the simple numeric literal \haskell{5} which would have type
 \mintinline{c}{int} in C instead has type \haskell{Num t => t} in Haskell, involving type classes and type constraints.
 Simple operations like addition and subtraction on integers are provided by \haskell{Int}'s \haskell{Num} instance). In
-the schedule below I've detailed which areas I intend to focus on for language features - the subset should hopefully be
-small enough to be implementable in reasonable time, but large enough to allow for interesting programs to be written.
+the schedule below I've detailed which areas I intend to focus on for language features -- the subset should hopefully
+be small enough to be implementable in reasonable time, but large enough to allow for interesting programs to be
+written.
 
 The project also aims to implement some optimisations, to improve the performance of the output of the compiler. These
-are also detailed in the schedule below, and include a mix of classical optimisations (eg. peephole) and more exotic
+are also detailed in the schedule below, and include a mix of classical optimisations (e.g.\ peephole) and more exotic
 ones (strictness analysis).
 
 Tests are a vital part of any engineering project. During the work on the project, I will write and maintain a test suite
@@ -123,8 +125,8 @@ implement this test suite.
 \section*{Success Criteria}
 
 The primary goal of the project is to produce a compiler that can translate source code written in a small subset of
-Haskell into Java bytecode suitable for execution by the JVM. This big-picture goal can be subdivided into distinct
-aspects:
+Haskell into Java bytecode suitable for execution by the JVM, performing simple optimisations during the translation
+process. This big-picture goal can be subdivided into distinct aspects:
 
 \begin{itemize}
 \item
@@ -163,8 +165,8 @@ There are plenty of interesting extensions to the proposed work:
 }
 \item
 {
-    There exist many more optimisations that could be investigated: there are over 60 "big picture" optimisations listed
-    on the GHC's "using optimisations"
+    There exist many more optimisations that could be investigated: there are over 60 ``big picture'' optimisations
+    listed on the GHC's ``using optimisations''
     page\footnote{https://downloads.haskell.org/~ghc/master/users-guide/using-optimisation.html}.
 }
 \item
@@ -177,7 +179,7 @@ There are plenty of interesting extensions to the proposed work:
 }
 \item
 {
-    The Haskell Prelude\footnote{https://www.haskell.org/onlinereport/standard-prelude.html} is the "standard library"
+    The Haskell Prelude\footnote{https://www.haskell.org/onlinereport/standard-prelude.html} is the ``standard library''
     of Haskell: as it is written in Haskell, it might be possible to compile parts of it using the compiler developed
     during this project, allowing it to be used in programs. However, this would require quite a significant level of
     support for the language in the compiler.
@@ -185,8 +187,8 @@ There are plenty of interesting extensions to the proposed work:
 \item
 {
     A very cool demonstration for the project would be to compile the project using the compiler developed during the
-    project (bootstrap). This would require extensive language support though (at the very least, support for monads),
-    which is likely infeasible to reach.
+    project (bootstrapping). This would require extensive language support though (at the very least, support for
+    monads), which is likely infeasible to be completed.
 }
 \item
 {
@@ -232,20 +234,33 @@ that implicitly includes suitable tests for it.
     \daterange{21}
 
     Create a simple (non-optimising) backend for experimenting with lazy evaluation. This should just perform a
-    minimally-featured translation from the frontend's AST to executable bytecode (supporting eg. basic arithmetic and
+    minimally-featured translation from the frontend's AST to executable bytecode (supporting e.g.\ basic arithmetic and
     conditional expressions), but performing evaluation \textit{lazily}.
 
     For example, \haskell{1 + if true then 2 else undefined} should evaluate without touching the \haskell{undefined}
     subexpression and \haskell{1 + 2} should generate appropriate bytecode to evaluate the expression only when needed).
-    
-    This will probably involve creating an intermediate language in preparation for when more interesting language
-    constructs are implemented. The purpose of such an IR is to simplify the lower layers of the compiler (eg. we can
-    reduce \haskell{where} and \haskell{let} expressions from two distinct nodes in the frontend's AST to a single node
-    in an IR tree).
 
     A lot of time has been allocated for this, as I expect that there'll be a lot of edge cases and tricky decisions to
     make when implementing lazy evaluation. Care needs to be taken to ensure that the resulting code really does behave
-    similarly to call-by-need, and that the implementation doesn't have any major bugs that'll block later work.
+    non-strictly, and that the implementation doesn't have any major bugs that'll block later work.
+}
+\item
+{
+    \daterange{14}
+
+    The goal of this week is to implement a peephole pass to collapse sequences of instructions into more efficient
+    versions. The sequences to be collapsed will need to be decided at the time, based on inspection of the bytecode
+    output by the compiler, and more peephole rules can be added as other transformations are implemented.
+    
+    After this work is complete, the absolutely minimal success criteria should have been met, taking pressure off the
+    rest of the planned work.
+}
+\item
+{
+    \daterange{7}
+
+    This week is a slack week, to catch up on anything that fell behind, or to spend time cleaning up any parts of the
+    existing implementation that are messy/fragile/poorly designed.
 }
 \item
 {
@@ -259,53 +274,18 @@ that implicitly includes suitable tests for it.
     \item \haskell{case} expressions.
     \item \haskell{let ... in ...} expressions.
     \item \haskell{... where ...} expressions.
-    \item
-    {
-
-        Function definition by cases eg.:
-        \begin{minted}[autogobble]{haskell}
-        foo 0 = ... foo 1 = ... foo n = ...
-        \end{minted}
-    }
-    \item
-    {
-
-        Function definition with guards eg.:
-        \begin{minted}[autogobble]{haskell}
-        foo n | n == 0 = ... | n == 1 = ... | otherwise = ...
-        \end{minted}
-    }
     \end{itemize}
-
-    This week is the final week of term, where the lecture load is lightest and there's no pending supervision work, so
-    a single week should be enough to complete the implementation of functions.
 }
 \item
 {
-    \daterange{14}
+    \daterange{21}
 
     Introduce lists: these are one of the most frequently used data structures in Haskell, and form the basis for many
     algorithms. They also give many opportunities to demonstrate that the implementation of lazy evaluation works
-    correctly (eg. by careful analysis of expressions like \haskell{let l = 1:l in take 5 l}, which should give
+    correctly (e.g.\ by careful analysis of expressions like \haskell{let l = 1:l in take 5 l}, which should give
     \haskell{[1,1,1,1,1]}).
-}
-\item
-{
-    \daterange{7}
 
-    This week is a slack week, to catch up on anything that fell behind, or to spend time cleaning up any parts of the
-    existing implementation that are messy/fragile/poorly designed.
-}
-\item
-{
-    \daterange{14}
-
-    At this point, a usable subset of Haskell should be complete and tested. The focus of the project now shifts to optimisations.
-
-    The goal of this week is to implement a peephole pass to collapse sequences of instructions into more efficient
-    versions. The sequences to be collapsed will need to be decided at the time, based on inspection of the bytecode
-    output by the compiler, and I will probably add more peephole rules as other transformations are implemented, to clean
-    up their outputs.
+    I will also write my progress report and presentation during these weeks.
 }
 \item
 {
@@ -315,33 +295,38 @@ that implicitly includes suitable tests for it.
     to see significant buildup of unevaluated computations in memory, ensuring that we don't have two large blobs of
     memory devoted to computing the same thing is likely worthwhile.
 
-    This chunk of work is quite light for the time allocated to it, to allow for Christmas celebrations! I can also use
-    any spare time here to catch up on any components that I've fallen behind on.
+    % Instead of CSE, maybe do inlining as it subsumes CSE and has additional benefits.
+    % https://www.microsoft.com/en-us/research/wp-content/uploads/2002/07/inline.pdf
+}
+\item
+{
+    \daterange{21}
+
+    Implement strictness analysis, and accompanying optimisations. The optimisation opportunities revealed by
+    strictness analysis should reduce compiled code size and memory usage, by eagerly evaluating expressions that are
+    guaranteed to require evaluation during program execution.
+}
+\item
+{
+    \daterange{28}
+
+    During these weeks, I intend to focus on writing the dissertation.
+
+    Implement some micro-benchmarks to demonstrate the effectiveness of the optimisations, for use in the evaluation.
 }
 \item
 {
     \daterange{14}
 
-    Implement strictness analysis, and accompanying optimisations. Strictness analysis is designed specifically for lazy
-    languages, and this project is a prime opportunity to try it out: the optimisations opportunities revealed by
-    strictness analysis should reduce compiled code size and memory usage, by eagerly evaluating expressions that are
-    guaranteed to require evaluation during program execution.
-
-    There are multiple approaches to this: the method given in the Optimising Compilers lecture course differs from the
-    approach used by GHC, the de-facto Haskell compiler. I intend to read more about the different approaches and
-    implement whichever is most manageable given time constraints.
+    In these weeks I hope to balance work on the dissertation with revision.
 }
 \item
 {
-    \textbf{14th Jan - ?}
+    \daterange{14}
 
-    \todo{Rest of the schedule to be decided?}
+    I now expect to switch fully to revision, making only critical changes to the dissertation.
 
-    Probably want to start on writing the dissertation a few weeks into 2nd term - the earlier the better, so I can
-    still make corrections/tweaks to the compiler/tests/benchmarks etc.
-
-    Hopefully time here for a few more select optimisations/extensions. Maybe list fusion or dead code elimination?
-    Register colouring?
+    At the end of these weeks I hope to submit the dissertation.
 }
 \end{itemize}
 
