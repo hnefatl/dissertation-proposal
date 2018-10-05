@@ -1,0 +1,34 @@
+Subject: Phase 1 - Collister: An Optimising Compiler from Haskell to Java Bytecode
+
+Phase 1 Project Selection Status Report
+
+Name: Keith Collister
+
+College: Robinson
+
+User Identifier: kc506
+
+Director of Studies: Prof. Alan Mycroft
+
+Please complete 1, 2 and 3 below.
+
+1. Please write 100 words on your current project ideas.
+
+I'm planning to write a compiler from a subset of Haskell to Java Bytecode. Haskell's a fun language with some novel
+features (e.g. non-strict computation, purity, and typeclasses) that aren't covered by the part 1B/2 modules so gives an
+opportunity to research beyond the course content. Java bytecode was chosen as the target as it's cross-platform and a
+bit higher-level than x86-64.
+I'm also hoping to implement some optimisations: at the moment I'm looking at strictness analysis along with some
+classical optimisations, depending on how tight the schedule is.
+
+2. Please list names of potential project supervisors.
+                                                                 
+Dr. Timothy Jones has agreed to supervise.
+
+3. Is there any chance that your project will involve any computing resources other than the Computing Service's MCS and
+software that is already installed there, for example: your own machine, machines in College, special peripherals,
+imported software packages, special hardware, network access, substantial extra disc space on the MCS. 
+
+If so indicate below what, and what it is needed for.
+
+Just my personal laptop, for development/testing etc.
