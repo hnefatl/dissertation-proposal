@@ -14,6 +14,13 @@
 \newcommand\haskell[1]{\mintinline{haskell}{#1}}
 \newcommand\monospace[1]{\mintinline{text}{#1}}
 
+% Overseer comments
+% - remove colloquialisms
+% - remove contractions
+% - test suites: how to ensure quality? How large?
+%   - looked into eg. nofib but uses too many other features. Translate to supported?
+%   - simple project euler challenges?
+
 \begin{document}
 
 \thispagestyle{empty}
@@ -59,12 +66,20 @@ well known, and lack existing Haskell libraries that provide an abstraction over
 considered, but would require implementing a garbage collector which is a significant piece of work that's not aligned
 with the aims of this project.
 
+Similar projects exist, like Frege\footnote{https://github.com/Frege/frege} and Eta\footnote{https://eta-lang.org/},
+that both aim to provide a fully-featured Haskell compiler for programs running on the JVM, with the ability to
+interoperate with Java. The Eta project aims to accelerate the uptake of Haskell in industry by interfacing with a
+widely used imperative
+languge\footnote{https://eta-lang.org/docs/user-guides/eta-user-guide/introduction/what-is-eta\#motivation}. The
+motivation behind this project is simply individual learning -- Haskell has a number of aspects which aren't covered in
+undergraduate courses, such as type-classes and lazy evaluation, which I'm very interested in learning how to implement.
+
 
 \section*{Starting Point}
 
 I intend to use Haskell to develop the compiler, and Python or Bash for quick utility scripts -- I have experience with
 all of these languages.
-
+ 
 I've preread the 2018 Optimising Compilers course\footnote{https://www.cl.cam.ac.uk/teaching/1718/OptComp/} as
 preparation: my schedule involves writing optimisations before the module is lectured.
 
@@ -105,19 +120,23 @@ directed graph to keep track of thunks.
 Haskell is a very feature-rich language, and those features are often highly dependent on each other: simple things
 often touch many aspects of the language (for example, the simple numeric literal \haskell{5} which would have type
 \mintinline{c}{int} in C instead has type \haskell{Num t => t} in Haskell, involving type classes and type constraints.
-Simple operations like addition and subtraction on integers are provided by \haskell{Int}'s \haskell{Num} instance). In
-the schedule below I've detailed which areas I intend to focus on for language features -- the subset should hopefully
-be small enough to be implementable in reasonable time, but large enough to allow for interesting programs to be
-written.
+Simple operations like addition and subtraction on integers are provided by \haskell{Int}'s \haskell{Num} instance). I
+intend to implement typeclasses\footnote{http://homepages.inf.ed.ac.uk/wadler/papers/classhask/classhask.ps}, aspects of
+functions (currying, partial application, recursion), arithmetic, boolean operations, lists (and functions for
+manipulating them such as \haskell{map} and \haskell{foldl}). The implementation of many of these features will be
+different from in conventional languages due to the impact of typeclasses and laziness. These features should cover most
+of the ``unusual'' aspects of Haskell that are feasible to be implemented, so are the most educational to implement.
 
-The project also aims to implement some optimisations, to improve the performance of the output of the compiler. These
-are also detailed in the schedule below, and include a mix of classical optimisations (e.g.\ peephole) and more exotic
-ones (strictness analysis).
+The project also aims to implement some optimisations to improve the performance of the output of the compiler. These
+include classical optimisations like peephole analysis, but also strictness
+analysis\footnote{https://www.cl.cam.ac.uk/~am21/papers/sofsem92b.ps.gz}, which is exclusively useful for lazy
+languages, so again offers good educational value. I intend to research and implement existing impactful techniques,
+rather than try to invent new optimisation techniques.
 
-Tests are a vital part of any engineering project. During the work on the project, I will write and maintain a test suite
-to ensure the various components of the compiler work as expected and guard against regressions. I intend to use the
-\monospace{tasty} framework\footnote{https://hackage.haskell.org/package/tasty} which provides a standard interface to
-\monospace{HUnit}\footnote{https://hackage.haskell.org/package/HUnit} (for unit and regression tests) and
+Tests are a vital part of any engineering project. During the work on the project, I will write and maintain a test
+suite to ensure the various components of the compiler work as expected and guard against regressions. I intend to use
+the \monospace{tasty} framework\footnote{https://hackage.haskell.org/package/tasty} which provides a standard interface
+to \monospace{HUnit}\footnote{https://hackage.haskell.org/package/HUnit} (for unit and regression tests) and
 \monospace{QuickCheck}\footnote{https://hackage.haskell.org/package/QuickCheck} (for wonderful property-based tests) to
 implement this test suite.
 
