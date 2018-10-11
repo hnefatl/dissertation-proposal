@@ -42,6 +42,9 @@
 
 % https://www.cl.cam.ac.uk/teaching/projects/modelprojs/
 
+% More detail on evaluation: quant+qual
+% Motivate JVM vs other bytecodes/LLVM IR. LLVM would require a GC...
+
 
 \section*{Introduction and Description of the Work}
 
@@ -55,7 +58,10 @@ which makes it easier to avoid bugs.
 
 Java Bytecode was chosen as the target language as it is portable and mature. While not as performant as native machine
 code, bytecode output by the compiler built during this project can be interpreted on almost any platform, rather than
-being restricted to e.g.\ only machines with an x86-64 processor.
+being restricted to e.g.\ only machines with an x86-64 processor. Other bytecodes like python bytecode aren't as
+well known, and lack existing Haskell libraries that provide an abstraction over them. Compiling to LLVM IR was
+considered, but would require implementing a garbage collector which is a significant piece of work that's not aligned
+with the aims of this project.
 
 
 \section*{Starting Point}
@@ -132,12 +138,17 @@ process. This big-picture goal can be subdivided into distinct aspects:
     To succeed as a Haskell compiler, the result of this project should be able to reject ill-formed programs for
     syntactic or type errors (within the scope of the subset of Haskell implemented), and convert well-formed programs
     into Java bytecode. The output programs should perform computation non-strictly.
+
+    This can be evaluated by providing example valid/invalid programs and ensuring the compiler accepts/rejects them
+    appropriately. Lazy evaluation can be tested similarly, using infinite lists and \haskell{undefined}.
 }
 \item
 {
     To succeed as an optimising compiler, it should produce bytecode which executes faster and/or in less memory than
-    bytecode produced by a non-optimising compiler (this can be tested by enabling/disabling optimisations within this
-    compiler and comparing the relative execution speeds/memory footprint).
+    bytecode produced by a non-optimising compiler.
+    
+    This can be tested by enabling/disabling optimisations within this compiler and comparing the relative execution
+    speeds/memory footprint, as well as the difference in size of the optimised bytecode compared to the non-optimised bytecode.
 }
 \item
 {
@@ -190,8 +201,8 @@ There are plenty of interesting extensions to the proposed work:
 }
 \item
 {
-    One potential advantage of using the JVM as a target is that it may be possible to provide an interface between Java
-    code and Haskell code.
+    One potential advantage of using the JVM as a target is that it may be possible to provide a foreign function
+    interface between Java code and Haskell code.
 }
 \end{itemize}
 
@@ -224,7 +235,7 @@ that implicitly includes suitable tests for it.
     frequently implemented, the extension of type classes seems less comprehensively covered, although there are still
     some strong leads\footnote{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.53.3952\&rep=rep1\&type=pdf}.
 
-    After this work, the frontend should be minimally functional and the compiler should be able to reject ill-formed
+    After this work, the frontend should be functional and the compiler should be able to reject ill-formed
     source code either due to syntactic or type errors.
 }
 \item
@@ -234,13 +245,6 @@ that implicitly includes suitable tests for it.
     Create a simple (non-optimising) backend for experimenting with lazy evaluation. This should just perform a
     minimally-featured translation from the frontend's AST to executable bytecode (supporting e.g.\ basic arithmetic and
     conditional expressions), but performing evaluation \textit{lazily}.
-
-    For example, \haskell{1 + if true then 2 else undefined} should evaluate without touching the \haskell{undefined}
-    subexpression and \haskell{1 + 2} should generate appropriate bytecode to evaluate the expression only when needed).
-
-    A lot of time has been allocated for this, as I expect that there'll be a lot of edge cases and tricky decisions to
-    make when implementing lazy evaluation. Care needs to be taken to ensure that the resulting code really does behave
-    non-strictly, and that the implementation doesn't have any major bugs that'll block later work.
 }
 \item
 {
@@ -278,12 +282,12 @@ that implicitly includes suitable tests for it.
 {
     \daterange{21}
 
+    Progress report and presentation, along with another feature:
+
     Introduce lists: these are one of the most frequently used data structures in Haskell, and form the basis for many
     algorithms. They also give many opportunities to demonstrate that the implementation of lazy evaluation works
     correctly (e.g.\ by careful analysis of expressions like \haskell{let l = 1:l in take 5 l}, which should give
     \haskell{[1,1,1,1,1]}).
-
-    I will also write my progress report and presentation during these weeks.
 }
 \item
 {
