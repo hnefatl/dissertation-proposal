@@ -14,13 +14,6 @@
 \newcommand\haskell[1]{\mintinline{haskell}{#1}}
 \newcommand\monospace[1]{\mintinline{text}{#1}}
 
-% Overseer comments
-% - remove colloquialisms
-% - remove contractions
-% - test suites: how to ensure quality? How large?
-%   - looked into eg. nofib but uses too many other features. Translate to supported?
-%   - simple project euler challenges?
-
 \begin{document}
 
 \thispagestyle{empty}
@@ -61,19 +54,19 @@ which makes it easier to avoid bugs.
 
 Java Bytecode was chosen as the target language as it is portable and mature. While not as performant as native machine
 code, bytecode output by the compiler built during this project can be interpreted on almost any platform, rather than
-being restricted to e.g.\ only machines with an x86-64 processor. Other bytecodes like python bytecode aren't as
-well known, and lack existing Haskell libraries that provide an abstraction over them. Compiling to LLVM IR was
-considered, but would require implementing a garbage collector which is a significant piece of work that's not aligned
-with the aims of this project.
+being restricted to e.g.\ only machines with an x86-64 processor. Other bytecodes like python bytecode are less well
+known, and lack existing Haskell libraries that provide an abstraction over them. Compiling to LLVM IR was considered,
+but would require implementing a garbage collector which is a significant piece of work that is not aligned with the
+aims of this project.
 
 Similar projects exist, like Frege\footnote{https://github.com/Frege/frege} and Eta\footnote{https://eta-lang.org/},
 that both aim to provide a fully-featured Haskell compiler for programs running on the JVM, with the ability to
 interoperate with Java. The Eta project aims to accelerate the uptake of Haskell in industry by interfacing with a
 widely used imperative
 language\footnote{https://eta-lang.org/docs/user-guides/eta-user-guide/introduction/what-is-eta\#motivation}. The
-motivation behind this project is instead simply individual learning -- Haskell has a number of aspects which aren't
-covered in undergraduate courses, such as type-classes and lazy evaluation, which I'm very interested in learning how to
-implement.
+motivation behind this project is instead simply individual learning -- Haskell has a number of aspects which are not
+covered in undergraduate courses, such as type-classes and lazy evaluation, which I am very interested in learning how
+to implement.
 
 
 \section*{Starting Point}
@@ -81,7 +74,7 @@ implement.
 I intend to use Haskell to develop the compiler, and Python or Bash for quick utility scripts -- I have experience with
 all of these languages.
  
-I've preread the 2018 Optimising Compilers course\footnote{https://www.cl.cam.ac.uk/teaching/1718/OptComp/} as
+I have preread the 2018 Optimising Compilers course\footnote{https://www.cl.cam.ac.uk/teaching/1718/OptComp/} as
 preparation: my schedule involves writing optimisations before the module is lectured.
 
 
@@ -306,7 +299,7 @@ that implicitly includes suitable tests for it.
     \daterange{14}
 
     Implement an optimisation pass performing common subexpression elimination. In a lazy language, where we can expect
-    to see significant buildup of unevaluated computations in memory, ensuring that we don't have two large allocations
+    to see significant buildup of unevaluated computations in memory, ensuring that we never have two large allocations
     of memory representing a partial computation of the same thing is likely worthwhile.
 
     % Instead of CSE, maybe do inlining as it subsumes CSE and has additional benefits.
