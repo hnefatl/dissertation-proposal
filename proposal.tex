@@ -46,14 +46,14 @@
 
 The goal of this project is to implement an optimising compiler from a subset of the Haskell language to Java bytecode.
 A variety of optimisations will be implemented to explore their effect on compilation and execution time, as well as on
-the size of the output bytecode.
+the size of the produced bytecode.
 
 Haskell is a functional, pure, and non-strict language seeing increasing usage in industry and academia. Purity makes
 programs much simpler to reason about: a programmer can usually tell from the type of a function exactly what it can do,
 which makes it easier to avoid bugs.
 
 Java Bytecode was chosen as the target language as it is portable and mature. While not as performant as native machine
-code, bytecode output by the compiler built during this project can be interpreted on almost any platform, rather than
+code, bytecode produced by the compiler built during this project can be interpreted on almost any platform, rather than
 being restricted to e.g.\ only machines with an x86-64 processor. Other bytecodes like python bytecode are less well
 known, and lack existing Haskell libraries that provide an abstraction over them. Compiling to LLVM IR was considered,
 but would require implementing a garbage collector which is a significant piece of work that is not aligned with the
@@ -89,7 +89,7 @@ that I can use. It should only cost a few days to get it set up with a Haskell d
 
 I intend to use the GHC compiler\footnote{https://www.haskell.org/ghc/} with the Stack
 toolchain\footnote{https://github.com/commercialhaskell/stack} for development (both are available under BSD-style
-licenses).
+licences).
 
 
 \section*{Substance and Structure of the Project}
@@ -106,15 +106,15 @@ manipulating them such as \haskell{map} and \haskell{foldl}). The implementation
 different from in conventional languages due to the impact of typeclasses and laziness. These features should cover most
 of the novel aspects of Haskell that are feasible to be implemented, so should be the most educational to implement.
 
-The project also aims to implement some optimisations to improve the performance of the output of the compiler. These
+The project also aims to implement some optimisations to improve the performance of the of the compiler. These
 include classical optimisations like peephole analysis, but also strictness
 analysis\footnote{https://www.cl.cam.ac.uk/\~{}am21/papers/sofsem92b.ps.gz}, which is exclusively useful for lazy
 languages, so again offers good educational value. I intend to research and implement existing impactful techniques,
 rather than try to invent new optimisation techniques.
 
 As Haskell is a lazy language, one of the major challenges will be to design a way to represent and perform lazy
-computation. This might be achieved using ``thunks'', in-memory representations of pending computations. GHC uses a
-directed graph to keep track of thunks.
+computation. This might be achieved using ``thunks'', in-memory representations of pending computations. GHC keeps track
+of thunks at runtime using a directed graph.
 
 As the focus of the project is on the implementation of various language features and optimisations operating on them, I
 intend to use an existing library for lexing and parsing
@@ -137,11 +137,11 @@ Haskell into Java bytecode suitable for execution by the JVM, attempting simple 
 process.
 
 The compiler should be able to reject ill-formed programs for syntactic or type errors (within the scope of the subset
-of Haskell implemented), and convert well-formed programs into Java bytecode. The output programs should perform
+of Haskell implemented), and convert well-formed programs into Java bytecode. The resulting binaries should perform
 computation non-strictly.
 
-I also hope to identify the cases in which the optimisations produce code that uses less resources than the
-non-optimised output (either CPU time, memory, or disk space).
+I also hope to identify the cases in which the optimisations produce code that uses less resources than when
+non-optimised (either CPU time, memory, or disk space).
 
 \section*{Evaluation}
 
@@ -157,10 +157,10 @@ optimised code. Combined, these sets of programs should form a broad range of in
 as expected.
 
 Specific metrics that I aim to capture data about are the time taken to compile a program with and without optimisations
-enabled, the execution time and memory footprint of non-optimised and optimised output programs, and the size of output
-programs (number of instructions or raw byte size). These should allow for critical evaluation on a number of axes, such
-as ``speed-up of optimised output over non-optimised'' against ``extra time taken during compilation'' or ``change in
-output size''. The effects of strictness analysis should also be visible by comparing the memory usage of programs
+enabled, the execution time and memory footprint of non-optimised and optimised output binaries, and the size of output
+binaries (number of instructions or raw byte size). These should allow for critical evaluation on a number of axes, such
+as ``speed-up of optimised binaries over non-optimised'' against ``extra time taken during compilation'' or ``change in
+output size''. The effects of strictness analysis should also be visible by comparing the memory usage of binaries
 running with and without the optimisation enabled.
 
 To gather data about the performance of the compiler, I intend to use the rich profiling options built in to GHC,
@@ -186,7 +186,7 @@ There are many interesting extensions to the proposed work:
 }
 \item
 {
-    There exist many more optimisations that could be investigated: there are over 60 ``big picture'' optimisations
+    There also exist many more optimisations that could be investigated: there are over 60 ``big picture'' optimisations
     listed on the GHC's ``using optimisations''
     page\footnote{https://downloads.haskell.org/\~{}ghc/master/users-guide/using-optimisation.html}.
 }
@@ -215,6 +215,12 @@ There are many interesting extensions to the proposed work:
     One potential advantage of using the JVM as a target is that it may be possible to provide a foreign function
     interface between Java code and Haskell code.
 }
+\item
+{
+    Using the JVM will impose a performance impact compared to compiling to native machine code -- this overhead is hard
+    to measure and reduces the informativeness of comparisons to other compilers like GHC. It would be beneficial to
+    find a way of calculating this overhead, to improve the quality of data obtained during evaluation.
+}
 \end{itemize}
 
 \section*{Schedule}
@@ -240,7 +246,7 @@ that implicitly includes suitable tests for it.
 {
     \daterange{21}
 
-    Implement a typechecking pass over the AST, \textit{including support for typeclasses}. This is one of the most
+    Implement a type-checking pass over the AST, \textit{including support for typeclasses}. This is one of the most
     uncertain duration parts of the project, because while the Hindley-Milner type system is well understood and
     frequently implemented, the extension of type classes seems less comprehensively covered, although there are still
     some strong leads\footnote{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.53.3952\&rep=rep1\&type=pdf}.
@@ -261,8 +267,8 @@ that implicitly includes suitable tests for it.
     \daterange{14}
 
     The goal of this week is to implement a peephole pass to collapse sequences of instructions into more efficient
-    versions. The sequences to be collapsed will need to be decided at the time, based on inspection of the bytecode
-    output by the compiler, and more peephole rules can be added as other transformations are implemented.
+    versions. The sequences to be collapsed will need to be decided at the time, based on inspection of the output from
+    the compiler, and more peephole rules can be added as other transformations are implemented.
     
     After this work is complete, the absolutely minimal success criteria should have been met, taking pressure off the
     rest of the planned work.
@@ -287,7 +293,7 @@ that implicitly includes suitable tests for it.
 {
     \daterange{21}
 
-    Progress report and presentation, along with another feature:
+    Progress report and presentation.
 
     Introduce lists: these are one of the most frequently used data structures in Haskell, and form the basis for many
     algorithms. They also give many opportunities to demonstrate that the implementation of lazy evaluation works
@@ -298,7 +304,7 @@ that implicitly includes suitable tests for it.
 {
     \daterange{14}
 
-    Implement an optimisation pass performing common subexpression elimination. In a lazy language, where we can expect
+    Implement an optimisation pass performing common-subexpression elimination. In a lazy language, where we can expect
     to see significant buildup of unevaluated computations in memory, ensuring that we never have two large allocations
     of memory representing a partial computation of the same thing is likely worthwhile.
 
