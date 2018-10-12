@@ -302,17 +302,6 @@ that implicitly includes suitable tests for it.
 }
 \item
 {
-    \daterange{14}
-
-    Implement an optimisation pass performing common-subexpression elimination. In a lazy language, where we can expect
-    to see significant buildup of unevaluated computations in memory, ensuring that we never have two large allocations
-    of memory representing a partial computation of the same thing is likely worthwhile.
-
-    % Instead of CSE, maybe do inlining as it subsumes CSE and has additional benefits.
-    % https://www.microsoft.com/en-us/research/wp-content/uploads/2002/07/inline.pdf
-}
-\item
-{
     \daterange{21}
 
     Implement strictness analysis, and accompanying optimisations. The optimisation opportunities revealed by
