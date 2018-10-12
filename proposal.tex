@@ -36,7 +36,7 @@
 % TODO(kc506)
 \centerline{\large \textbf{date}}
 
-\vspace{1in}
+\vspace{0.8in}
 
 \begin{tabular}{ p{4cm} p{4.5cm} l }
 {\bf Project Originator:} & Keith Collister & \\[3mm]
@@ -46,7 +46,7 @@
                  & Prof. Simone Teufel & {\bf Signature:} \\[3mm]
 \end{tabular}
 
-\vspace{0.75in}
+\vspace{0.3in}
 
 
 \section*{Introduction and Description of the Work}
@@ -70,9 +70,10 @@ Similar projects exist, like Frege\footnote{https://github.com/Frege/frege} and 
 that both aim to provide a fully-featured Haskell compiler for programs running on the JVM, with the ability to
 interoperate with Java. The Eta project aims to accelerate the uptake of Haskell in industry by interfacing with a
 widely used imperative
-languge\footnote{https://eta-lang.org/docs/user-guides/eta-user-guide/introduction/what-is-eta\#motivation}. The
-motivation behind this project is simply individual learning -- Haskell has a number of aspects which aren't covered in
-undergraduate courses, such as type-classes and lazy evaluation, which I'm very interested in learning how to implement.
+language\footnote{https://eta-lang.org/docs/user-guides/eta-user-guide/introduction/what-is-eta\#motivation}. The
+motivation behind this project is instead simply individual learning -- Haskell has a number of aspects which aren't
+covered in undergraduate courses, such as type-classes and lazy evaluation, which I'm very interested in learning how to
+implement.
 
 
 \section*{Starting Point}
@@ -103,35 +104,31 @@ licenses).
 The aim of the project is to develop an optimising compiler that can translate simple programs written in Haskell into
 Java bytecode that can be interpreted on platforms supporting the Java Runtime Environment.
 
-As the focus of the project is on the implementation of various language features and optimisations operating on them, I
-intend to use an existing library for lexing and parsing
-(\monospace{haskell-src}\footnote{https://hackage.haskell.org/package/haskell-src}) which can produce an AST from
-Haskell 98. This will allow for more time to be devoted to those parts of the project which are more aligned with the
-aim.
+Haskell is a very feature-rich language, and those features are often highly dependent on each other: simple things
+often touch many aspects of the language (for example, the simple numeric literal \haskell{5} which would have type
+\mintinline{c}{int} in C instead has type \haskell{Num t => t} in Haskell, involving type classes and type constraints).
+I intend to implement typeclasses\footnote{http://homepages.inf.ed.ac.uk/wadler/papers/classhask/classhask.ps}, aspects
+of functions (currying, partial application, recursion), arithmetic, boolean operations, lists (and functions for
+manipulating them such as \haskell{map} and \haskell{foldl}). The implementation of many of these features will be
+different from in conventional languages due to the impact of typeclasses and laziness. These features should cover most
+of the novel aspects of Haskell that are feasible to be implemented, so should be the most educational to implement.
 
-Similarly, I intend to use the \monospace{hs-java} library\footnote{https://hackage.haskell.org/package/hs-java} to
-handle the conversion from the logical representation of bytecode to the actual instruction sequences (the ``assembly''
-part of the backend).
+The project also aims to implement some optimisations to improve the performance of the output of the compiler. These
+include classical optimisations like peephole analysis, but also strictness
+analysis\footnote{https://www.cl.cam.ac.uk/\~{}am21/papers/sofsem92b.ps.gz}, which is exclusively useful for lazy
+languages, so again offers good educational value. I intend to research and implement existing impactful techniques,
+rather than try to invent new optimisation techniques.
 
 As Haskell is a lazy language, one of the major challenges will be to design a way to represent and perform lazy
 computation. This might be achieved using ``thunks'', in-memory representations of pending computations. GHC uses a
 directed graph to keep track of thunks.
 
-Haskell is a very feature-rich language, and those features are often highly dependent on each other: simple things
-often touch many aspects of the language (for example, the simple numeric literal \haskell{5} which would have type
-\mintinline{c}{int} in C instead has type \haskell{Num t => t} in Haskell, involving type classes and type constraints.
-Simple operations like addition and subtraction on integers are provided by \haskell{Int}'s \haskell{Num} instance). I
-intend to implement typeclasses\footnote{http://homepages.inf.ed.ac.uk/wadler/papers/classhask/classhask.ps}, aspects of
-functions (currying, partial application, recursion), arithmetic, boolean operations, lists (and functions for
-manipulating them such as \haskell{map} and \haskell{foldl}). The implementation of many of these features will be
-different from in conventional languages due to the impact of typeclasses and laziness. These features should cover most
-of the ``unusual'' aspects of Haskell that are feasible to be implemented, so are the most educational to implement.
-
-The project also aims to implement some optimisations to improve the performance of the output of the compiler. These
-include classical optimisations like peephole analysis, but also strictness
-analysis\footnote{https://www.cl.cam.ac.uk/~am21/papers/sofsem92b.ps.gz}, which is exclusively useful for lazy
-languages, so again offers good educational value. I intend to research and implement existing impactful techniques,
-rather than try to invent new optimisation techniques.
+As the focus of the project is on the implementation of various language features and optimisations operating on them, I
+intend to use an existing library for lexing and parsing
+(\monospace{haskell-src}\footnote{https://hackage.haskell.org/package/haskell-src}) which can produce an AST from
+Haskell 98 -- similarly, the actual assembly of the textual bytecode will be handled by the \monospace{hs-java}
+library\footnote{https://hackage.haskell.org/package/hs-java}. This will allow for more time to be devoted to those
+parts of the project which are more aligned with the aim.
 
 Tests are a vital part of any engineering project. During the work on the project, I will write and maintain a test
 suite to ensure the various components of the compiler work as expected and guard against regressions. I intend to use
@@ -140,67 +137,72 @@ to \monospace{HUnit}\footnote{https://hackage.haskell.org/package/HUnit} (for un
 \monospace{QuickCheck}\footnote{https://hackage.haskell.org/package/QuickCheck} (for wonderful property-based tests) to
 implement this test suite.
 
-
 \section*{Success Criteria}
 
 The primary goal of the project is to produce a compiler that can translate source code written in a small subset of
-Haskell into Java bytecode suitable for execution by the JVM, performing simple optimisations during the translation
-process. This big-picture goal can be subdivided into distinct aspects:
+Haskell into Java bytecode suitable for execution by the JVM, attempting simple optimisations during the translation
+process.
 
-\begin{itemize}
-\item
-{
-    To succeed as a Haskell compiler, the result of this project should be able to reject ill-formed programs for
-    syntactic or type errors (within the scope of the subset of Haskell implemented), and convert well-formed programs
-    into Java bytecode. The output programs should perform computation non-strictly.
+The compiler should be able to reject ill-formed programs for syntactic or type errors (within the scope of the subset
+of Haskell implemented), and convert well-formed programs into Java bytecode. The output programs should perform
+computation non-strictly.
 
-    This can be evaluated by providing example valid/invalid programs and ensuring the compiler accepts/rejects them
-    appropriately. Lazy evaluation can be tested similarly, by evaluating programs involving infinite lists and
-    \haskell{undefined}.
-}
-\item
-{
-    To succeed as an optimising compiler, it should produce bytecode which executes faster and/or in less memory than
-    bytecode produced by a non-optimising compiler.
-    
-    This can be tested by enabling/disabling optimisations within this compiler and comparing the relative execution
-    speeds/memory footprint, as well as the difference in size of the optimised bytecode compared to the non-optimised bytecode.
-}
-\item
-{
-    To succeed as a stable and reliable piece of software, it should have a comprehensive test suite including unit
-    tests and regression tests for bugs found during development.
-}
-\end{itemize}
+I also hope to identify the cases in which the optimisations produce code that uses less resources than the
+non-optimised output (either CPU time, memory, or disk space).
 
+\section*{Evaluation}
+
+To evaluate the success criteria, I plan to use a suite of test programs designed to probe various areas of the
+compiler, based off GHC's \monospace{nofib}\footnote{https://github.com/ghc/nofib} repository. Some tests from that
+suite will likely use features that my compiler does not support, and I intend to modify or discard them depending on
+how close they are to being supported.
+
+Extra test programs will also be written, to specifically demonstrate features of the compiler: for example a simple
+program like \haskell{let l = 1:l in take 5 l} (with result \haskell{[1,1,1,1,1]}) is a good demonstration of lists and
+laziness. These might be carefully crafted, e.g.\ to demonstrate the effect of the peephole pass on non-optimised versus
+optimised code. Combined, these sets of programs should form a broad range of inputs to ensure that the compiler behaves
+as expected.
+
+Specific metrics that I aim to capture data about are the time taken to compile a program with and without optimisations
+enabled, the execution time and memory footprint of non-optimised and optimised output programs, and the size of output
+programs (number of instructions or raw byte size). These should allow for critical evaluation on a number of axes, such
+as ``speed-up of optimised output over non-optimised'' against ``extra time taken during compilation'' or ``change in
+output size''. The effects of strictness analysis should also be visible by comparing the memory usage of programs
+running with and without the optimisation enabled.
+
+To gather data about the performance of the compiler, I intend to use the rich profiling options built in to GHC,
+together with the \monospace{criterion}\footnote{https://hackage.haskell.org/package/criterion} and
+\monospace{weigh}\footnote{https://hackage.haskell.org/package/weigh} packages for reproducible benchmarks.
+
+To gather data about the performance of the test programs, I intend to leverage mature JVM tooling by using an existing
+JVM profiler such as JProfiler or Java VisualVM.
 
 \section*{Extensions}
 
-There are plenty of interesting extensions to the proposed work:
+There are many interesting extensions to the proposed work:
 
 \begin{itemize}
 \item
 {
     There are many more features to Haskell than those mentioned in this proposal, ranging from syntactic sugar to
     features in their own right: infix operators, operator sections, point-free notation, user-defined datatypes, type
-    instances, monads, do-notation for monads, do-notation for applicative functors, GADTs, user input/output, etc.
+    instances, monads, GADTs, user input/output, etc.
 
-    It would be fun to increase the size of the implemented subset of Haskell, both in order to write more interesting
-    programs and also to explore the effectiveness of existing optimisations on the new changes.
+    Increasing the size of the implemented subset of Haskell would allow for writing more interesting programs, and also
+    exploring the effectiveness of existing optimisations on the new changes.
 }
 \item
 {
     There exist many more optimisations that could be investigated: there are over 60 ``big picture'' optimisations
     listed on the GHC's ``using optimisations''
-    page\footnote{https://downloads.haskell.org/~ghc/master/users-guide/using-optimisation.html}.
+    page\footnote{https://downloads.haskell.org/\~{}ghc/master/users-guide/using-optimisation.html}.
 }
 \item
 {
     One of the greatest attractions of pure languages is the relative ease with which they can be parallelised: any
-    subexpressions can be evaluated at any time without effecting the result of the computation. GHC provides a
-    concurrency extension including a number of simple language constructs and runtime environment options that allow
-    for parallel computations to be expressed in a clean way. It would be extremely interesting to implement something
-    similar (but sadly also very time consuming and far beyond the scope of this project).
+    sub-expressions can be evaluated at any time without effecting the result of the computation. GHC provides a
+    concurrency extension to make such parallel programming easy -- it would be interesting to implement such a feature
+    but likely far beyond the scope of this project.
 }
 \item
 {
@@ -239,8 +241,7 @@ that implicitly includes suitable tests for it.
 
     General project setup: creating a version-controlled repository of code with continuous integration to run tests.
 
-    Create a simple frontend for converting a given file into an AST using the \monospace{haskell-src} package. Focusing
-    on single files for the moment, as without proper support for modules, multiple source files don't make sense.
+    Create a simple frontend for converting a given file into an AST using the \monospace{haskell-src} package.
 }
 \item
 {
@@ -285,14 +286,9 @@ that implicitly includes suitable tests for it.
     \daterange{21}
 
     Implement user-defined functions, supporting currying, partial application, recursion, and laziness. Depending on
-    how long this takes, this may be a convenient time to implement a number of smaller related features, such as:
-    
-    \begin{itemize}
-    \item Pattern matching.
-    \item \haskell{case} expressions.
-    \item \haskell{let ... in ...} expressions.
-    \item \haskell{... where ...} expressions.
-    \end{itemize}
+    how long this takes, this may be a convenient time to implement a number of smaller related features, such as
+    pattern matching, \haskell{case} expressions, \haskell{let ... in ...} expressions, \haskell{... where ...}
+    expressions, etc.
 }
 \item
 {
@@ -310,8 +306,8 @@ that implicitly includes suitable tests for it.
     \daterange{14}
 
     Implement an optimisation pass performing common subexpression elimination. In a lazy language, where we can expect
-    to see significant buildup of unevaluated computations in memory, ensuring that we don't have two large blobs of
-    memory devoted to computing the same thing is likely worthwhile.
+    to see significant buildup of unevaluated computations in memory, ensuring that we don't have two large allocations
+    of memory representing a partial computation of the same thing is likely worthwhile.
 
     % Instead of CSE, maybe do inlining as it subsumes CSE and has additional benefits.
     % https://www.microsoft.com/en-us/research/wp-content/uploads/2002/07/inline.pdf
