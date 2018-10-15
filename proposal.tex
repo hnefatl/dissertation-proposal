@@ -137,10 +137,10 @@ Haskell into Java bytecode suitable for execution by the JVM, attempting simple 
 process.
 
 The compiler should be able to reject ill-formed programs for syntactic or type errors (within the scope of the subset
-of Haskell implemented), and convert well-formed programs into Java bytecode. The resulting binaries should perform
+of Haskell implemented), and convert well-formed programs into Java bytecode. The resulting bytecode should perform
 computation non-strictly.
 
-I also hope to identify the cases in which the optimisations produce code that uses less resources than when
+I also hope to identify the cases in which the optimisations produce code that uses fewer resources than when
 non-optimised (either CPU time, memory, or disk space).
 
 \section*{Evaluation}
@@ -157,18 +157,18 @@ optimised code. Combined, these sets of programs should form a broad range of in
 as expected.
 
 Specific metrics that I aim to capture data about are the time taken to compile a program with and without optimisations
-enabled, the execution time and memory footprint of non-optimised and optimised output binaries, and the size of output
-binaries (number of instructions or raw byte size). These should allow for critical evaluation on a number of axes, such
-as ``speed-up of optimised binaries over non-optimised'' against ``extra time taken during compilation'' or ``change in
-output size''. The effects of strictness analysis should also be visible by comparing the memory usage of binaries
+enabled, the execution time and memory footprint of non-optimised and optimised output bytecode, and the size of output
+bytecode (number of instructions or raw byte size). These should allow for critical evaluation on a number of axes, such
+as ``speed-up of optimised bytecode over non-optimised'' against ``extra time taken during compilation'' or ``change in
+output size''. The effects of strictness analysis should also be visible by comparing the memory usage of bytecode
 running with and without the optimisation enabled.
 
 To gather data about the performance of the compiler, I intend to use the rich profiling options built in to GHC,
 together with the \monospace{criterion}\footnote{https://hackage.haskell.org/package/criterion} and
 \monospace{weigh}\footnote{https://hackage.haskell.org/package/weigh} packages for reproducible benchmarks.
 
-To gather data about the performance of the test programs, I intend to leverage mature JVM tooling by using an existing
-JVM profiler such as JProfiler or Java VisualVM.
+To gather data about the performance of the emitted bytecode, I intend to leverage mature JVM tooling by using an
+existing JVM profiler such as JProfiler or Java VisualVM.
 
 \section*{Extensions}
 
@@ -314,13 +314,16 @@ that implicitly includes suitable tests for it.
 
     During these weeks, I intend to focus on writing the dissertation.
 
-    Implement some micro-benchmarks to demonstrate the effectiveness of the optimisations, for use in the evaluation.
+    Implement some micro-benchmarks to demonstrate the effectiveness of the optimisations, for use in the evaluation
+    section.
 }
 \item
 {
-    \daterange{14}
+    \daterange{21}
 
     In these weeks I hope to balance work on the dissertation with revision.
+    
+    Near the start of this work chunk, I intend to submit a full draft to my DoS and Supervisor.
 }
 \item
 {
@@ -328,7 +331,7 @@ that implicitly includes suitable tests for it.
 
     I now expect to switch fully to revision, making only critical changes to the dissertation.
 
-    At the end of these weeks I hope to submit the dissertation.
+    At the end of these weeks I hope to submit the dissertation and concentrate fully on revision and the final term.
 }
 \end{itemize}
 
