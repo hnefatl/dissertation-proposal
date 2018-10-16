@@ -65,7 +65,7 @@ interoperate with Java. The Eta project aims to accelerate the uptake of Haskell
 widely used imperative
 language\footnote{https://eta-lang.org/docs/user-guides/eta-user-guide/introduction/what-is-eta\#motivation}. The
 motivation behind this project is instead simply individual learning -- Haskell has a number of aspects which are not
-covered in undergraduate courses, such as type-classes and lazy evaluation, which I am very interested in learning how
+covered in undergraduate courses, such as type classes and lazy evaluation, which I am very interested in learning how
 to implement.
 
 
@@ -150,11 +150,11 @@ compiler, based off GHC's \monospace{nofib}\footnote{https://github.com/ghc/nofi
 suite will likely use features that my compiler does not support, and I intend to modify or discard them depending on
 how close they are to being supported.
 
-Extra test programs will also be written, to specifically demonstrate features of the compiler: for example a simple
-program like \haskell{let l = 1:l in take 5 l} (with result \haskell{[1,1,1,1,1]}) is a good demonstration of lists and
-laziness. These might be carefully crafted, e.g.\ to demonstrate the effect of the peephole pass on non-optimised versus
-optimised code. Combined, these sets of programs should form a broad range of inputs to ensure that the compiler behaves
-as expected.
+Additional test programs will also be written, to specifically demonstrate features of the compiler: for example a
+simple program like \haskell{let l = 1:l in take 5 l} (with result \haskell{[1,1,1,1,1]}) is a good demonstration of
+lists and laziness. These might be carefully crafted, e.g.\ to demonstrate the effect of the peephole pass on
+non-optimised versus optimised code. Combined, these sets of programs should form a broad range of inputs to ensure that
+the compiler behaves as expected.
 
 Specific metrics that I aim to capture data about are the time taken to compile a program with and without optimisations
 enabled, the execution time and memory footprint of non-optimised and optimised output bytecode, and the size of output
@@ -246,7 +246,7 @@ that implicitly includes suitable tests for it.
 {
     \daterange{21}
 
-    Implement a type-checking pass over the AST, \textit{including support for typeclasses}. This is one of the most
+    Implement a type checking pass over the AST, \textit{including support for typeclasses}. This is one of the most
     uncertain duration parts of the project, because while the Hindley-Milner type system is well understood and
     frequently implemented, the extension of type classes seems less comprehensively covered, although there are still
     some strong leads\footnote{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.53.3952\&rep=rep1\&type=pdf}.
