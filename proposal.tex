@@ -227,15 +227,10 @@ There are many interesting extensions to the proposed work:
 I intend to treat tests as part of a feature: when the schedule lists a certain feature as being deliverable in a slot,
 that implicitly includes suitable tests for it.
 
-% Set start date to 15th October 2018
-\ThisYear{2018}\ThisMonth{10}\ThisDay{15}
-
-\input{daterange.tex}
-
 \begin{itemize}
 \item
 {
-    \daterange{7}
+    \textbf{15th Oct -- 21st Oct}
 
     General project setup: creating a version-controlled repository of code with continuous integration to run tests.
 
@@ -243,7 +238,7 @@ that implicitly includes suitable tests for it.
 }
 \item
 {
-    \daterange{21}
+    \textbf{22nd Oct -- 11th Nov}
 
     Implement a type checking pass over the AST, \textit{including support for typeclasses}. This is one of the most
     uncertain duration parts of the project, because while the Hindley-Milner type system is well understood and
@@ -255,7 +250,7 @@ that implicitly includes suitable tests for it.
 }
 \item
 {
-    \daterange{21}
+    \textbf{12th Nov -- 2nd Dec}
 
     Create a simple (non-optimising) backend for experimenting with lazy evaluation. This should just perform a
     minimally-featured translation from the frontend's AST to executable bytecode (supporting e.g.\ basic arithmetic and
@@ -263,7 +258,7 @@ that implicitly includes suitable tests for it.
 }
 \item
 {
-    \daterange{14}
+    \textbf{3rd Dec -- 16th Dec}
 
     The goal of this week is to implement a peephole pass to collapse sequences of instructions into more efficient
     versions. The sequences to be collapsed will need to be decided at the time, based on inspection of the bytecode
@@ -274,14 +269,14 @@ that implicitly includes suitable tests for it.
 }
 \item
 {
-    \daterange{7}
+    \textbf{17th Dec -- 23rd Dec}
 
     This week is a slack week, to catch up on anything that fell behind, or to spend time cleaning up any parts of the
     existing implementation that are messy/fragile/poorly designed.
 }
 \item
 {
-    \daterange{21}
+    \textbf{24th Dec -- 13th Jan}
 
     Implement user-defined functions, supporting currying, partial application, recursion, and laziness. Depending on
     how long this takes, this may be a convenient time to implement a number of smaller related features, such as
@@ -290,7 +285,7 @@ that implicitly includes suitable tests for it.
 }
 \item
 {
-    \daterange{21}
+    \textbf{14th Jan -- 3rd Feb}
 
     Progress report and presentation.
 
@@ -301,7 +296,7 @@ that implicitly includes suitable tests for it.
 }
 \item
 {
-    \daterange{21}
+    \textbf{4th Feb -- 24th Feb}
 
     Implement strictness analysis, and accompanying optimisations. The optimisation opportunities revealed by
     strictness analysis should reduce compiled code size and memory usage, by eagerly evaluating expressions that are
@@ -309,7 +304,7 @@ that implicitly includes suitable tests for it.
 }
 \item
 {
-    \daterange{28}
+    \textbf{25th Feb -- 24th Mar}
 
     During these weeks, I intend to focus on writing the dissertation.
 
@@ -318,7 +313,7 @@ that implicitly includes suitable tests for it.
 }
 \item
 {
-    \daterange{21}
+    \textbf{25th Mar -- 14th Apr}
 
     In these weeks I hope to balance work on the dissertation with revision.
     
@@ -326,7 +321,7 @@ that implicitly includes suitable tests for it.
 }
 \item
 {
-    \daterange{14}
+    \textbf{15th Apr -- 28th Apr}
 
     I now expect to switch fully to revision, making only critical changes to the dissertation.
 
